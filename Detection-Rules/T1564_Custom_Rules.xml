@@ -1,0 +1,43 @@
+<!-- Custom Wazuh Detection Rules for MITRE ATT&CK T1564 (Defense Evasion) -->
+<group name="local,windows,defense_evasion">
+
+  <!-- T1564.001: Hidden Files and Directories -->
+  <rule id="110210" level="10">
+    <if_sid>554</if_sid>
+    <field name="file.attributes" type="pcre2">(?i)hidden|system</field>
+    <field name="syscheck.event">added</field>
+    <description>Hidden/System File Creation Detected (T1564.001)</description>
+    <group>windows,hidden_files,T1564.001</group>
+  </rule>
+
+  <rule id="110213" level="10">
+    <if_sid>1002</if_sid>
+    <match type="pcre2">(?i)attrib\.exe.*[\+\s]h[\+\s]</match>
+    <description>File Hidden Using Attrib Command (T1564.001)</description>
+    <group>windows,file_attributes,T1564.001</group>
+  </rule>
+
+  <!-- T1564.002: Hidden Users -->
+  <rule id="110221" level="12">
+    <if_sid>752,594</if_sid>
+    <match type="pcre2">(?i)SpecialAccounts\\UserList|UserList\\.*\$|AtomicOperator\$</match>
+    <description>Registry Modification: Possible Hidden User Account (T1564.002)</description>
+    <group>windows,registry,defense_evasion,T1564.002</group>
+  </rule>
+
+  <!-- T1564.006: Hidden Virtual Machines -->
+  <rule id="110101" level="12">
+    <if_sid>1002</if_sid>
+    <match>VBoxManage.*createvm</match>
+    <description>VirtualBox: Rogue Virtual Machine Creation Detected (T1564.006)</description>
+    <group>virtualization,vm_creation,T1564.006</group>
+  </rule>
+
+  <rule id="110102" level="12">
+    <if_sid>1002</if_sid>
+    <match>VBoxManage.*startvm</match>
+    <description>VirtualBox: Virtual Machine Startup Detected (T1564.006)</description>
+    <group>virtualization,vm_startup,T1564.006</group>
+  </rule>
+
+</group>
