@@ -46,6 +46,7 @@ SOC-Active-Response-Lab/
 
 
 
+##  Technology Stack
 
 * **SIEM / EDR / Telemetry:** Wazuh, Splunk, Sysmon
 * **Attack Simulation:** Atomic Red Team, VirtualBox CLI
